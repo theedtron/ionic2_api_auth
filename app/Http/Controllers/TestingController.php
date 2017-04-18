@@ -72,7 +72,7 @@ class TestingController extends Controller
                 $url = url('oauth/token');
                 print_r($url);
 
-                $response = $http->post('http://passport.wn.co.ke/oauth/token', [
+                $response = $http->post($url, [
                     'form_params' => [
                         'grant_type' => 'password',
                         'client_id' => env('client_id'),
