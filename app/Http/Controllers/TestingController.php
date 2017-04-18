@@ -70,6 +70,7 @@ class TestingController extends Controller
             if ($the_code->code == $data['verification_code']){
                 $http = new Client();
                 $url = url('oauth/token');
+                print_r('here');
 
                 $response = $http->post('http://passport.wn.co.ke/oauth/token', [
                     'form_params' => [
@@ -81,6 +82,7 @@ class TestingController extends Controller
                         'scope' => '',
                     ],
                 ]);
+                print_r('here2');
 
                 $res = $response->getBody();
             }else{
