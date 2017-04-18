@@ -70,8 +70,6 @@ class TestingController extends Controller
             if ($the_code->code == $data['verification_code']){
                 $http = new Client();
                 $url = url('oauth/token');
-                print_r('username: '.$user->email);
-                print_r('Password: '.substr($user->email, 0, 10));
 
                 $response = $http->post($url, [
                     'form_params' => [
@@ -79,13 +77,13 @@ class TestingController extends Controller
                         'client_id' => env('client_id'),
                         'client_secret' => env('client_secret'),
                         'username' => $user->email,
-                        'password' => substr($user->email,10),
+                        'password' => substr($user->email, 0, 10),
                         'scope' => '',
                     ],
                 ]);
                 print_r('here2');
 
-                $res = $response->getBody();
+                $res = json_decode((string) $response->getBody(), true);
             }else{
                 $res = "Error: Code incorrect";
             }
