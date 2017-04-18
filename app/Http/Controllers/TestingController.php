@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\VerifyCode;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class TestingController extends Controller
 {
     //
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
 
     public function testData()
     {
@@ -22,5 +24,72 @@ class TestingController extends Controller
         ];
 
         return response()->json($sample);
+    }
+
+    public function register(Request $request){
+
+        $payload = $request->json()->all();
+
+        DB::table('payload')->insert([
+            'dump' => \GuzzleHttp\json_encode($payload),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        $create_user = User::create([
+            'name' => $payload['name'],
+            'email' => $payload['phone'].'@mail.com',
+            'password' => Hash::make($payload['phone'])
+        ]);
+
+        if ($create_user){
+            $rand = rand(100000,999999);
+
+            VerifyCode::create([
+                'user_id' => $create_user->id,
+                'code' => $rand
+            ]);
+
+            //send sms
+            $res = $rand;
+        }else{
+            $res = "Error: User not created";
+        }
+
+        return $res;
+    }
+
+    public function verify(Request $request){
+        $data = $request->json()->all();
+
+        $the_code = VerifyCode::whereCode($data['verification_code'])->first();
+
+        if (isset($the_code)){
+            $user = User::whereId($the_code->user_id)->first();
+
+            if ($the_code->code == $data['verification_code']){
+                $http = new Client();
+                $url = url('oauth/token');
+
+                $response = $http->post('http://passport.wn.co.ke/oauth/token', [
+                    'form_params' => [
+                        'grant_type' => 'password',
+                        'client_id' => '2',
+                        'client_secret' => 'F7aqYdUuZpCDyhilqRgs2snDRhTQC6ldhPkxPPf1',
+                        'username' => $user->email,
+                        'password' => substr($user->email,10),
+                        'scope' => '',
+                    ],
+                ]);
+
+                $res = $response->getBody();
+            }else{
+                $res = "Error: Code incorrect";
+            }
+        }else{
+            $res = "Error: No user found";
+        }
+
+        return $res;
     }
 }

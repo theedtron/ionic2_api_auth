@@ -15,4 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', 'TestingController@testData');
+//Route::get('/reg', 'TestingController@register');
+
+Route::get('/login', function () {
+    return "Error";
+})->name('login');
+
+Route::post('reg', 'TestingController@register');
+
+Route::post('verify', 'TestingController@verify');
