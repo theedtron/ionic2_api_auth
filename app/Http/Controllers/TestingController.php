@@ -71,7 +71,7 @@ class TestingController extends Controller
                 $http = new Client();
                 $url = url('oauth/token');
                 print_r('username: '.$user->email);
-                print_r('Password: '.substr($user->email, 1, 10));
+                print_r('Password: '.substr($user->email, 0, 10));
 
                 $response = $http->post($url, [
                     'form_params' => [
