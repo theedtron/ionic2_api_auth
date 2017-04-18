@@ -70,13 +70,13 @@ class TestingController extends Controller
             if ($the_code->code == $data['verification_code']){
                 $http = new Client();
                 $url = url('oauth/token');
-                print_r('here');
+                print_r($url);
 
                 $response = $http->post('http://passport.wn.co.ke/oauth/token', [
                     'form_params' => [
                         'grant_type' => 'password',
-                        'client_id' => '2',
-                        'client_secret' => 'F7aqYdUuZpCDyhilqRgs2snDRhTQC6ldhPkxPPf1',
+                        'client_id' => env('client_id'),
+                        'client_secret' => env('client_secret'),
                         'username' => $user->email,
                         'password' => substr($user->email,10),
                         'scope' => '',
