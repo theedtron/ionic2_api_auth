@@ -70,7 +70,8 @@ class TestingController extends Controller
             if ($the_code->code == $data['verification_code']){
                 $http = new Client();
                 $url = url('oauth/token');
-                print_r($url);
+                print_r('username: '.$user->email);
+                print_r('Password: '.substr($user->email,10));
 
                 $response = $http->post($url, [
                     'form_params' => [
