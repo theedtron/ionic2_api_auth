@@ -13,9 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::post('register', ['as' => 'auth.register', 'uses' => 'Api\RegistrationController@register']);
 
-    return $request->user();
+Route::post('verify', 'Api\RegistrationController@verify');
+
+Route::post('hello', function (){
+    return "Jello";
 });
 
-Route::middleware('auth:api')->get('test', 'TestingController@testData')->name('test');
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:api');
+
+Route::get('test', 'TestingController@testData')->name('test')->middleware('auth:api');

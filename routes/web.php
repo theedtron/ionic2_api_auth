@@ -20,7 +20,3 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return "Error";
 })->name('login');
-
-Route::post('reg', 'TestingController@register');
-
-Route::post('verify', 'TestingController@verify');
