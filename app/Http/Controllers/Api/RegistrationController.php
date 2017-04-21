@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\SmsController;
 use App\User;
 use App\VerifyCode;
 use Carbon\Carbon;
@@ -38,11 +39,15 @@ class RegistrationController extends Controller
                 'code' => $rand
             ]);
 
-            //send sms
             $res = $rand;
+
         }else{
             $res = "Error: User not created";
         }
+
+        //send sms
+        $sms = new SmsController();
+        $sms->sendSms($payload['phone'],$res);
 
         return $res;
     }
