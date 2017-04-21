@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('register', ['as' => 'auth.register', 'uses' => 'Api\RegistrationController@register']);
+Route::post('register', 'Api\RegistrationController@register');
 
 Route::post('verify', 'Api\RegistrationController@verify');
 

@@ -69,7 +69,6 @@ class RegistrationController extends Controller
                         'scope' => '',
                     ],
                 ]);
-                print_r('here2');
 
                 $res = json_decode((string) $response->getBody(), true);
             }else{
