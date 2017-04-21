@@ -93,4 +93,13 @@ class TestingController extends Controller
 
         return $res;
     }
+
+    public function text(){
+        $sms = new SmsController();
+        $send_sms = $sms->sendSms('0715576111','Yellow');
+
+        foreach ($send_sms as $sent){
+            echo $sent->status;
+        }
+    }
 }

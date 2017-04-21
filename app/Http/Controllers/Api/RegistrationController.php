@@ -47,13 +47,18 @@ class RegistrationController extends Controller
 
         //send sms
         $sms = new SmsController();
-        $sms->sendSms($payload['phone'],$res);
+        $send_sms = $sms->sendSms($payload['phone'],$res);
+
+        foreach ($send_sms as $sent){
+            echo $sent->status;
+        }
 
         return $res;
     }
 
     public function verify(Request $request){
         $data = $request->json()->all();
+//        print_r($data);exit;
 
         $the_code = VerifyCode::whereCode($data['verification_code'])->first();
 
@@ -63,6 +68,7 @@ class RegistrationController extends Controller
             if ($the_code->code == $data['verification_code']){
                 $http = new Client();
                 $url = url('oauth/token');
+
 
                 $response = $http->post($url, [
                     'form_params' => [
@@ -75,7 +81,10 @@ class RegistrationController extends Controller
                     ],
                 ]);
 
-                $res = json_decode((string) $response->getBody(), true);
+                $result = json_decode((string) $response->getBody(), true);
+
+                $res = $result['access_token'];
+
             }else{
                 $res = "Error: Code incorrect";
             }

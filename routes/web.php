@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/reg', 'TestingController@register');
+Route::get('/text', 'TestingController@text');
 
 Route::get('/login', function () {
     return "Error";
