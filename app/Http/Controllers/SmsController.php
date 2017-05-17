@@ -59,7 +59,6 @@ class SmsController extends Controller {
         // Specify the numbers that you want to send to in a comma-separated list
         // Please ensure you include the country code (+254 for Kenya in this case)
         $recipients = '+254'.$to; //can be comma separeted
-        $from = '20209';
 
         // Create a new instance of our awesome gateway class
         $gateway    = new AfricasTalkingGateway($username, $apikey);
@@ -69,7 +68,7 @@ class SmsController extends Controller {
         try
         {
             // Thats it, hit send and we'll take care of the rest.
-            $results = $gateway->sendMessage($recipients, $message, $from);
+            $results = $gateway->sendMessage($recipients, $message);
             if($results){
                 foreach($results as $result) {
                     // Note that only the Status "Success" means the message was sent
