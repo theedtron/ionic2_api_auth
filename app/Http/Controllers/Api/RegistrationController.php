@@ -104,7 +104,7 @@ class RegistrationController extends Controller
         ]);
 
         $sms = new SmsController();
-        $send = $sms->sendSms($payload['phone'],'Thank you for supporting Bishop Thuku. We are very grateful. God Bless.');
+        $send = $sms->sendSms($payload['phone'],'Thank you for supporting Bishop Thuku medical fund. We are very grateful. God Bless.');
 
         return $send;
     }
