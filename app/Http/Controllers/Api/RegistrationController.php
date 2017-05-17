@@ -94,4 +94,18 @@ class RegistrationController extends Controller
 
         return $res;
     }
+
+    public function receiver(Request $request){
+        $payload = $request->json()->all();
+        DB::table('payload')->insert([
+            'dump' => \GuzzleHttp\json_encode($payload),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        $sms = new SmsController();
+        $send = $sms->sendSms($payload['phone'],'Thank you for supporting Bishop Thuku. We are very grateful. God Bless.');
+
+        return $send;
+    }
 }

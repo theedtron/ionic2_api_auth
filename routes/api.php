@@ -26,3 +26,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::get('test', 'TestingController@testData')->name('test')->middleware('auth:api');
+
+Route::post('mpesa/receive','RegistrationController@receiver');
