@@ -20,3 +20,7 @@ Route::get('/text', 'TestingController@text');
 Route::get('/login', function () {
     return "Error";
 })->name('login');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

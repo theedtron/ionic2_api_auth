@@ -29,6 +29,13 @@ class UsersTableSeeder extends Seeder
                     'email' => 'user@mail.com',
                     'password' => Hash::make('user')
                 ),
+            2 =>
+                array (
+                    'id' => 3,
+                    'name' => 'kareo',
+                    'email' => 'kareo@wn.co.ke',
+                    'password' => Hash::make('kareo')
+                ),
         ));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\SmsController;
+use App\Transaction;
 use App\User;
 use App\VerifyCode;
 use Carbon\Carbon;
@@ -103,8 +104,15 @@ class RegistrationController extends Controller
             'updated_at' => Carbon::now()
         ]);
 
-        $sms = new SmsController();
-        $send = $sms->sendSms($payload['phone'],'Thank you for supporting Bishop Thuku medical fund. We are very grateful. God Bless.');
+        $payload['transaction_time'] = substr($payload['transaction_time'], 0,4) . '-' . substr($payload['transaction_time'], 4,2).'-'.substr($payload['transaction_time'], 6,2).' '.substr($payload['transaction_time'], 8,2).':'.substr($payload['transaction_time'], 10,2).':'.substr($payload['transaction_time'], 12,2);
+        $save = Transaction::logTransaction($payload);
+
+        if($save){
+            $sms = new SmsController();
+            $send = $sms->sendSms($payload['phone'],'Thank you for supporting Bishop Thuku medical fund. We are very grateful. God Bless.');
+        }else{
+            $send = 'FAIL';
+        }
 
         return $send;
     }
